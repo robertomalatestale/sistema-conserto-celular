@@ -9,7 +9,7 @@ public class Modelo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long idMarca;
+    private Marca marca;
     private String nomeModelo;
 
 }

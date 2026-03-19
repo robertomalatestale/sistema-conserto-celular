@@ -11,8 +11,8 @@ public class Produto {
 
     private String nome;
     private Double preco;
-    private long idMarca;
-    private long idTipoProduto;
+    private Marca marca;
+    private TipoProduto tipoProduto;
     private String cor;
     private int quantidade;
 }

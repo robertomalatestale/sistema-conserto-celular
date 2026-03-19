@@ -1,9 +1,6 @@
 package br.edu.ifsudeste.demo.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Dispositivo {
@@ -11,7 +8,11 @@ public class Dispositivo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private long id;
+
+    @ManyToOne
+    private Cliente cliente;
+
     private int ano;
-    private long idMarca;
-    private long idModelo;
+    private Marca marca;
+    private Modelo modelo;
 }
