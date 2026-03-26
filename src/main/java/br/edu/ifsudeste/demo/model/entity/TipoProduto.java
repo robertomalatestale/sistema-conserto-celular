@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 public class TipoProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nomeTipo;
 }

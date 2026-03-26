@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 public class Modelo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private Marca marca;
     private String nomeModelo;
