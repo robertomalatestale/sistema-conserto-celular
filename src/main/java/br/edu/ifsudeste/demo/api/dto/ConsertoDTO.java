@@ -1,12 +1,11 @@
 package br.edu.ifsudeste.demo.api.dto;
 
-import br.edu.ifsudeste.demo.model.entity.Cliente;
-import br.edu.ifsudeste.demo.model.entity.Dispositivo;
-import br.edu.ifsudeste.demo.model.entity.Funcionario;
+import br.edu.ifsudeste.demo.model.entity.Conserto;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 import java.util.Date;
 
@@ -22,4 +21,10 @@ public class ConsertoDTO {
     private String observacoes;
     private Double valor;
     private Date dataEsperada;
+
+    public static ConsertoDTO create(Conserto conserto) {
+        ModelMapper modelMapper = new ModelMapper();
+        ConsertoDTO dto = modelMapper.map(conserto, ConsertoDTO.class);
+        return dto;
+    }
 }
