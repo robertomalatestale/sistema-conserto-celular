@@ -1,14 +1,17 @@
 package br.edu.ifsudeste.demo.model.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Data
 public class Conserto {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +29,6 @@ public class Conserto {
     private String observacoes;
     private Double valor;
     private Date dataEsperada;
+
+
 }

@@ -1,9 +1,16 @@
 package br.edu.ifsudeste.demo.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Dispositivo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
