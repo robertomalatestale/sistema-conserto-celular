@@ -2,7 +2,6 @@ package br.edu.ifsudeste.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
