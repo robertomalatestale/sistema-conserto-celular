@@ -20,6 +20,8 @@ public class Dispositivo {
     private Cliente cliente;
 
     private int ano;
+    @ManyToOne
     private Marca marca;
+    @ManyToOne
     private Modelo modelo;
 }
