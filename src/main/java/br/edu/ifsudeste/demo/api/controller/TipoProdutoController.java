@@ -3,17 +3,16 @@ package br.edu.ifsudeste.demo.api.controller;
 
 import br.edu.ifsudeste.demo.api.dto.ProdutoDTO;
 import br.edu.ifsudeste.demo.api.dto.TipoProdutoDTO;
+import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Produto;
 import br.edu.ifsudeste.demo.model.entity.TipoProduto;
 import br.edu.ifsudeste.demo.model.service.ProdutoService;
 import br.edu.ifsudeste.demo.model.service.TipoProdutoService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,4 +38,21 @@ public class TipoProdutoController {
         }
         return ResponseEntity.ok(tipoProduto.map(TipoProdutoDTO::create));
     }
+
+    @PostMapping()
+    public ResponseEntity post(@RequestBody TipoProdutoDTO dto) {
+        try {
+            TipoProduto tipoProduto = converter(dto);
+            tipoProduto = tipoProdutoService.salvar(tipoProduto);
+            return new ResponseEntity(tipoProduto, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    public TipoProduto converter(TipoProdutoDTO dto) {
+        ModelMapper modelMapper = new ModelMapper();
+        TipoProduto tipoProduto = modelMapper.map(dto, TipoProduto.class);
+        return  tipoProduto;
+}
 }

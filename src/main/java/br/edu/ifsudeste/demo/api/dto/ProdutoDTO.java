@@ -18,6 +18,7 @@ public class ProdutoDTO {
     private Double preco;
     private Marca marca;
     private Long idTipoProduto;
+    private Long idMarca;
     private String cor;
     private int quantidade;
 

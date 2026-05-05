@@ -14,6 +14,7 @@ public class ModeloDTO {
 
     private Long id;
     private Marca marca;
+    private Long idMarca;
     private String nomeModelo;
 
     public static ModeloDTO create(Modelo modelo) {
