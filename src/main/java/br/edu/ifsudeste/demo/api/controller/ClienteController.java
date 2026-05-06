@@ -2,10 +2,8 @@ package br.edu.ifsudeste.demo.api.controller;
 
 
 import br.edu.ifsudeste.demo.api.dto.ClienteDTO;
-import br.edu.ifsudeste.demo.api.dto.MarcaDTO;
 import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Cliente;
-import br.edu.ifsudeste.demo.model.entity.Marca;
 import br.edu.ifsudeste.demo.model.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

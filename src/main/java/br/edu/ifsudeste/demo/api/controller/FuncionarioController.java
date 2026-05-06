@@ -2,15 +2,14 @@ package br.edu.ifsudeste.demo.api.controller;
 
 
 import br.edu.ifsudeste.demo.api.dto.FuncionarioDTO;
+import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Funcionario;
 import br.edu.ifsudeste.demo.model.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,5 +34,22 @@ public class FuncionarioController {
             return new ResponseEntity("Funcionario não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(funcionario.map(FuncionarioDTO::create));
+    }
+
+    @PostMapping()
+    public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
+        try {
+            Funcionario funcionario = converter(dto);
+            funcionario = funcionarioService.salvar(funcionario);
+            return new ResponseEntity(funcionario, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    public Funcionario converter(FuncionarioDTO dto) {
+        ModelMapper modelMapper = new ModelMapper();
+        Funcionario funcionario = modelMapper.map(dto, Funcionario.class);
+        return  funcionario;
     }
 }
