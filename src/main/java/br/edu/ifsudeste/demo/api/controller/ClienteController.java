@@ -52,4 +52,19 @@ public class ClienteController {
         Cliente cliente = modelMapper.map(dto, Cliente.class);
         return  cliente;
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ClienteDTO dto) {
+        if (!clienteService.getClienteById(id).isPresent()) {
+            return new ResponseEntity("Cliente não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Cliente cliente = converter(dto);
+            cliente.setId(id);
+            clienteService.salvar(cliente);
+            return ResponseEntity.ok(cliente);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

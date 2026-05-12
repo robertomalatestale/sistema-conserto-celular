@@ -77,4 +77,19 @@ public class ProdutoController {
         }
         return  produto;
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ProdutoDTO dto) {
+        if (!produtoService.getProdutoById(id).isPresent()) {
+            return new ResponseEntity("Produto não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Produto produto = converter(dto);
+            produto.setId(id);
+            produtoService.salvar(produto);
+            return ResponseEntity.ok(produto);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

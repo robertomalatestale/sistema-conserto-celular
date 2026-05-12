@@ -55,4 +55,18 @@ public class TipoProdutoController {
         TipoProduto tipoProduto = modelMapper.map(dto, TipoProduto.class);
         return  tipoProduto;
 }
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody TipoProdutoDTO dto) {
+        if (!tipoProdutoService.getTipoProdutoById(id).isPresent()) {
+            return new ResponseEntity("TipoProduto não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            TipoProduto tipoProduto = converter(dto);
+            tipoProduto.setId(id);
+            tipoProdutoService.salvar(tipoProduto);
+            return ResponseEntity.ok(tipoProduto);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

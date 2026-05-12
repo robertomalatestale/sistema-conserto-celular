@@ -83,4 +83,19 @@ public class ConsertoController {
         }
         return  conserto;
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ConsertoDTO dto) {
+        if (!consertoService.getConsertoById(id).isPresent()) {
+            return new ResponseEntity("Conserto não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Conserto conserto = converter(dto);
+            conserto.setId(id);
+            consertoService.salvar(conserto);
+            return ResponseEntity.ok(conserto);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

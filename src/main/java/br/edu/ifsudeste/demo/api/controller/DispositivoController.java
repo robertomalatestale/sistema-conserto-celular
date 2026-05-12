@@ -83,4 +83,20 @@ public class DispositivoController {
         }
         return  dispositivo;
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody DispositivoDTO dto) {
+        if (!dispositivoService.getDispositivoById(id).isPresent()) {
+            return new ResponseEntity("Dispositivo não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Dispositivo dispositivo = converter(dto);
+            dispositivo.setId(id);
+            dispositivoService.salvar(dispositivo);
+            return ResponseEntity.ok(dispositivo);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
 }

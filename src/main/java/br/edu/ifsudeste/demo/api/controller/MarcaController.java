@@ -54,4 +54,19 @@ public class MarcaController {
         Marca marca = modelMapper.map(dto, Marca.class);
         return  marca;
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MarcaDTO dto) {
+        if (!marcaService.getMarcaById(id).isPresent()) {
+            return new ResponseEntity("Marca não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Marca marca = converter(dto);
+            marca.setId(id);
+            marcaService.salvar(marca);
+            return ResponseEntity.ok(marca);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
