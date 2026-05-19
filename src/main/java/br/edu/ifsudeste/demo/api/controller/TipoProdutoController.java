@@ -69,4 +69,18 @@ public class TipoProdutoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<TipoProduto> tipoProduto = tipoProdutoService.getTipoProdutoById(id);
+        if (!tipoProduto.isPresent()) {
+            return new ResponseEntity("Tipo de produto não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            tipoProdutoService.excluir(tipoProduto.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

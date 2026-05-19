@@ -98,4 +98,18 @@ public class ConsertoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Conserto> conserto = consertoService.getConsertoById(id);
+        if (!conserto.isPresent()) {
+            return new ResponseEntity("Conserto não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            consertoService.excluir(conserto.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

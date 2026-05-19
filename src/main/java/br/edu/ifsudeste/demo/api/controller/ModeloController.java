@@ -79,4 +79,18 @@ public class ModeloController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Modelo> modelo = modeloService.getModeloById(id);
+        if (!modelo.isPresent()) {
+            return new ResponseEntity("Modelo não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            modeloService.excluir(modelo.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

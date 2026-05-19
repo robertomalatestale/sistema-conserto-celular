@@ -4,6 +4,7 @@ package br.edu.ifsudeste.demo.api.controller;
 import br.edu.ifsudeste.demo.api.dto.ClienteDTO;
 import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Cliente;
+import br.edu.ifsudeste.demo.model.entity.Conserto;
 import br.edu.ifsudeste.demo.model.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -63,6 +64,20 @@ public class ClienteController {
             cliente.setId(id);
             clienteService.salvar(cliente);
             return ResponseEntity.ok(cliente);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Cliente> conserto = clienteService.getClienteById(id);
+        if (!conserto.isPresent()) {
+            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            clienteService.excluir(conserto.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

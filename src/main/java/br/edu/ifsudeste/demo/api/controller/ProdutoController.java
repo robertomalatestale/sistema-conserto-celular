@@ -92,4 +92,18 @@ public class ProdutoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Produto> produto = produtoService.getProdutoById(id);
+        if (!produto.isPresent()) {
+            return new ResponseEntity("Produto não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            produtoService.excluir(produto.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

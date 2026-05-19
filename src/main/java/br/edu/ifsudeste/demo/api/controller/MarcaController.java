@@ -69,4 +69,18 @@ public class MarcaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Marca> marca = marcaService.getMarcaById(id);
+        if (!marca.isPresent()) {
+            return new ResponseEntity("Marca não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            marcaService.excluir(marca.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

@@ -98,5 +98,19 @@ public class DispositivoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Dispositivo> dispositivo = dispositivoService.getDispositivoById(id);
+        if (!dispositivo.isPresent()) {
+            return new ResponseEntity("Dispositivo não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            dispositivoService.excluir(dispositivo.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     
 }

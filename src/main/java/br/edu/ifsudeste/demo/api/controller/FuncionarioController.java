@@ -4,6 +4,7 @@ package br.edu.ifsudeste.demo.api.controller;
 import br.edu.ifsudeste.demo.api.dto.FuncionarioDTO;
 import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Funcionario;
+import br.edu.ifsudeste.demo.model.entity.TipoProduto;
 import br.edu.ifsudeste.demo.model.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -67,4 +68,18 @@ public class FuncionarioController {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(id);
+        if (!funcionario.isPresent()) {
+            return new ResponseEntity("Funcionário não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            funcionarioService.excluir(funcionario.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
+
