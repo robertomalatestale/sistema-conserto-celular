@@ -11,6 +11,10 @@ import br.edu.ifsudeste.demo.model.entity.TipoProduto;
 import br.edu.ifsudeste.demo.model.service.MarcaService;
 import br.edu.ifsudeste.demo.model.service.ProdutoService;
 import br.edu.ifsudeste.demo.model.service.TipoProdutoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/produtos")
 @RequiredArgsConstructor
+@Api
 public class ProdutoController {
     private final ProdutoService produtoService;
     private final MarcaService marcaService;

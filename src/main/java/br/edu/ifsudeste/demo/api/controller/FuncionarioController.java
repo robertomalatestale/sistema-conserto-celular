@@ -6,6 +6,10 @@ import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Funcionario;
 import br.edu.ifsudeste.demo.model.entity.TipoProduto;
 import br.edu.ifsudeste.demo.model.service.FuncionarioService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/funcionarios")
 @RequiredArgsConstructor
+@Api
 public class FuncionarioController {
     private final FuncionarioService funcionarioService;
 
@@ -29,6 +34,11 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Obter detalhes de um Funcionário")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Funcionário encontrado"),
+            @ApiResponse(code = 404, message = "Funcionário não encontrado")
+    })
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Funcionario> funcionario = funcionarioService.getFuncionarioById(id);
         if (!funcionario.isPresent()) {
@@ -38,6 +48,11 @@ public class FuncionarioController {
     }
 
     @PostMapping()
+    @ApiOperation("Salva um novo Funcionário")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Funcionário salvo com sucesso"),
+            @ApiResponse(code = 400, message = "Erro ao salvar o Funcionário")
+    })
     public ResponseEntity post(@RequestBody FuncionarioDTO dto) {
         try {
             Funcionario funcionario = converter(dto);
