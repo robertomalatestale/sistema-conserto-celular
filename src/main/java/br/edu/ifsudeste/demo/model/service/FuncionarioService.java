@@ -2,8 +2,8 @@ package br.edu.ifsudeste.demo.model.service;
 
 import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Funcionario;
-import br.edu.ifsudeste.demo.model.entity.Funcionario;
 import br.edu.ifsudeste.demo.model.repository.FuncionarioRepository;
+import br.edu.ifsudeste.demo.util.ValidadorCPFEmail;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -44,14 +44,22 @@ public class FuncionarioService {
         if (funcionario.getNomeCompleto() == null || funcionario.getNomeCompleto().trim().equals("")) {
             throw new RegraNegocioException("Nome inválido");
         }
-        if (funcionario.getCpf() == null || funcionario.getCpf().trim().equals("")) {
-            throw new RegraNegocioException("CPF inválido");
+
+        try {
+            ValidadorCPFEmail.validarCPF(funcionario.getCpf());
+        } catch (IllegalArgumentException e) {
+            throw new RegraNegocioException(e.getMessage());
         }
+
         if (funcionario.getTelefoneCelular() == null || funcionario.getTelefoneCelular().trim().equals("")) {
             throw new RegraNegocioException("Celular inválido");
         }
-        if (funcionario.getEmail() == null || funcionario.getEmail().trim().equals("")) {
-            throw new RegraNegocioException("Email inválido");
+
+        try {
+            ValidadorCPFEmail.validarEmail(funcionario.getEmail());
+        } catch (IllegalArgumentException e) {
+            throw new RegraNegocioException(e.getMessage());
         }
     }
 }
+

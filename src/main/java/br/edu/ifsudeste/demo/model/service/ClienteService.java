@@ -3,6 +3,7 @@ package br.edu.ifsudeste.demo.model.service;
 import br.edu.ifsudeste.demo.exception.RegraNegocioException;
 import br.edu.ifsudeste.demo.model.entity.Cliente;
 import br.edu.ifsudeste.demo.model.repository.ClienteRepository;
+import br.edu.ifsudeste.demo.util.ValidadorCPFEmail;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -43,15 +44,23 @@ public class ClienteService {
         if (cliente.getNomeCompleto() == null || cliente.getNomeCompleto().trim().equals("")) {
             throw new RegraNegocioException("Nome Completo inválido");
         }
-        if (cliente.getCpf() == null || cliente.getCpf().trim().equals("")) {
-            throw new RegraNegocioException("CPF inválido");
+
+        try {
+            ValidadorCPFEmail.validarCPF(cliente.getCpf());
+        } catch (IllegalArgumentException e) {
+            throw new RegraNegocioException(e.getMessage());
         }
+
         if (cliente.getTelefoneCelular() == null || cliente.getTelefoneCelular().trim().equals("")) {
             throw new RegraNegocioException("Telefone Celular inválido");
         }
-        if (cliente.getEmail() == null || cliente.getEmail().trim().equals("")) {
-            throw new RegraNegocioException("Email inválido");
+
+        try {
+            ValidadorCPFEmail.validarEmail(cliente.getEmail());
+        } catch (IllegalArgumentException e) {
+            throw new RegraNegocioException(e.getMessage());
         }
     }
 }
+
 
