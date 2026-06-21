@@ -35,6 +35,7 @@ public class FuncionarioController {
             description = "Retorna todos os funcionários cadastrados no sistema."
     )
     @ApiResponse(responseCode = "200", description = "Funcionários listados com sucesso")
+    @ApiResponse(responseCode = "403", description = "Sem permissão pra isso")
     @GetMapping()
     public ResponseEntity get() {
 
@@ -52,6 +53,7 @@ public class FuncionarioController {
             description = "Retorna os dados de um funcionário específico."
     )
     @ApiResponse(responseCode = "200", description = "Funcionário encontrado")
+    @ApiResponse(responseCode = "403", description = "Sem permissão pra isso")
     @ApiResponse(responseCode = "404", description = "Funcionário não encontrado")
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id) {
