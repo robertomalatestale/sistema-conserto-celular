@@ -8,6 +8,7 @@ import br.edu.ifsudeste.demo.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -40,11 +41,26 @@ public class SecurityConfig {
                 .cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/v1/clientes/**").permitAll()
                         .requestMatchers("/api/v1/consertos/**").permitAll()
                         .requestMatchers("/api/v1/dispositivos/**").permitAll()
-                        .requestMatchers("/api/v1/funcionarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/v1/funcionarios/**")
+                        .permitAll()
+
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/funcionarios/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT,
+                                "/api/v1/funcionarios/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/v1/funcionarios/**")
+                        .hasRole("ADMIN")
+
                         .requestMatchers("/api/v1/marcas/**").permitAll()
                         .requestMatchers("/api/v1/modelos/**").permitAll()
                         .requestMatchers("/api/v1/produtos/**").permitAll()

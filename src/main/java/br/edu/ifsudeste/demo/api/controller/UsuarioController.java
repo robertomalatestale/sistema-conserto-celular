@@ -121,17 +121,22 @@ public class UsuarioController {
     public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciais) {
         System.out.println("ENTROU NO AUTH");
         try {
-
-            Usuario usuario = Usuario.builder()
+            Usuario usuarioLogin = Usuario.builder()
                     .login(credenciais.getLogin())
                     .senha(credenciais.getSenha())
                     .build();
 
-            UserDetails usuarioAutenticado = usuarioService.autenticar(usuario);
+            UserDetails usuarioAutenticado = usuarioService.autenticar(usuarioLogin);
 
-            String token = jwtService.gerarToken(usuario);
 
-            return new TokenDTO(usuario.getLogin(), token);
+            Usuario usuarioRealDoBanco = usuarioService.getUsuarios().stream()
+                    .filter(u -> u.getLogin().equals(credenciais.getLogin()))
+                    .findFirst()
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado na base."));
+
+            String token = jwtService.gerarToken(usuarioRealDoBanco);
+
+            return new TokenDTO(usuarioRealDoBanco.getLogin(), usuarioRealDoBanco.isAdmin(), token);
 
         } catch (UsernameNotFoundException | SenhaInvalidaException e) {
 
